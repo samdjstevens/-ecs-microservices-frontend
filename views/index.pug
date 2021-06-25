@@ -1,0 +1,35 @@
+html
+  head
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css", integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC", crossorigin="anonymous")
+    title= title
+  body.bg-light
+
+    div.container.text-center
+        h1 Translatr
+
+        if error
+            div.alert.alert-danger.mt-4.mb-4
+                strong Something went wrong.
+                error
+
+        div.card
+            div.card-body
+                form(action='/', method='POST')
+                  label Source Language
+                  select(name='srcLangCode')
+                    each name, key in availableLanguages
+                      option(value=key, selected= key == sourceLangCode) #{name.name}
+                  label Target Language
+                  select(name='targetLangCode')
+                    each name, key in availableLanguages
+                      option(value=key, selected= key == targetLangCode) #{name.name}
+                  label Text
+                  textarea(type='text', name='text')= text
+                  input(type='submit', value='Submit')
+
+
+        if translatedText
+            div.card.mt-4
+                div.card-body
+                    h6.card-subtitle Translated from <strong>#{availableLanguages[sourceLangCode].name} #{availableLanguages[sourceLangCode].flag}</strong> into <strong> #{availableLanguages[targetLangCode].name} #{availableLanguages[targetLangCode].flag}</strong>.
+                    p.card-text.m-4=translatedText
